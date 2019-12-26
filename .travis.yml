@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+- node
+install:
+- yarn
+cache:
+  yarn: true
+  directories:
+  - node_modules
+jobs:
+  include:
+  - stage: lint
+    script: yarn lint
+  - stage: test
+    script: yarn test:cov
+  - stage: build
+    script: yarn build
+    deploy:
+      provider: npm
+      email: tanfonto@pm.me
+      tag: latest
+      skip_cleanup: true
+      on:
+        tags: true
+      api_key:
+        secure: GZX4PGAiwWT6P0LUNaQDxrnAwUVsUY8B3Mb6BFkf5J9OnF2IMD55RqO2pZ42p7h/oO+oi11kC/jLyeAdUg+3fTsVQscGr6F7POi9/J1PA0kAKExzyzRgh1Lt5Ip7PSa0PiKD20opUvxppnHrmZ/DrIgnaMNpzij5sDIVW4BMqJLcwK6MfzcPggBBHKjJEZIv+UNJk9BuQCPih+9gqtOaU+WoIlhHjN5pvzv3p6Dvh2L8QLWoLqb2r5UxpopgfVGmEDCkBRWF/+FYbialWHcMWjMikPeVgQVYZCBgOsLwHMz+099iKiFY4SbTVx5njrCfRvRuWysCWQI6u0o6XtdRP0kEEpuDirSXz16EwF7tk5BTvFhXQqwwxVvyt7bg4KTex8eYUo0h9JCuvJ/GmvNIOCsUBzigt+L4iwEEjCKyrmdlzuFbiI0Zu0CaVuc4NB3QVJfZjHICDyIb1q9Jbs1Gq9z7b3srMwdlwz7br9kNcP9BlUSxya/BjTTp8bJm0Txj2xMF4kxNJSS0EieVDRcjiqmZU9gkvvU5AznxHjU48AO+hRVhXO0txToZK2FH/yTsTAddTiq7M/gKPaCPowXXvDPCe8eQVm5zCWYkZKw75GeYFUgXjwWX0Wjr2s120lFTCYC6mfSAwI+qFGMOCPqZ3EWDUVtk8tXZlhnBdI5Dvxs=

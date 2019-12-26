@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["esnext", "dom", "es2019"],
+    "allowJs": false,
+    "outDir": "./dist",
+    "declaration": true,
+    "removeComments": true,
+    "downlevelIteration": true,
+    "strict": true,
+    "strictFunctionTypes": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "moduleResolution": "node",
+    "listEmittedFiles": true,
+    "pretty": true,
+    "diagnostics": true,
+    "sourceMap": true
+  },
+  "include": ["lib"] 
+}
