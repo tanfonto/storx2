@@ -1,6 +1,13 @@
-import { BehaviorSubject, combineLatest, merge } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  merge,
+  pipe,
+  OperatorFunction
+} from 'rxjs';
+import { filter, distinctUntilChanged, map } from 'rxjs/operators';
 import { Event, EventStream, Store } from './types';
+import eq from 'deep-is';
 
 export default <S>(
   initialState: S,
@@ -35,4 +42,12 @@ export const withReason = <S>(store: Store<S>) =>
   combineLatest(
     store.state,
     store.allEvents.pipe(filter(x => x.status === 'ok'))
+  );
+
+export const select = <T, R>(
+  project: (state: T) => R
+): OperatorFunction<T, R> =>
+  pipe(
+    distinctUntilChanged(eq),
+    map(project)
   );

@@ -1,45 +1,45 @@
 import Effect from '../lib/effects';
-import Hub from '../lib/events';
+import EventStream from '../lib/events';
 import Store from '../lib/store';
 
 test('commands are executed', () => {
   const out: any[] = [];
-  const hub = Hub('some-event', {
+  const eventStream = EventStream('some-event', {
     select: x => x,
     xf: x => x,
     write: x => x
   });
-  const store = Store({}, hub);
+  const store = Store({}, eventStream);
   const makeEffect = Effect(store);
 
-  makeEffect(hub, (state, patch) => {
+  makeEffect(eventStream, (state, patch) => {
     out.push(state, patch);
   });
 
-  store.dispatch(hub, 42);
+  store.dispatch(eventStream, 42);
 
   expect(out).toStrictEqual([{}, 42]);
 });
 
 test('effects also update target stream', () => {
-  const sourceHub = Hub('some-event', {
+  const sourceEventStream = EventStream('some-event', {
     select: x => x,
     xf: x => x,
     write: x => x
   });
-  const targetHub = Hub('target-event', {
+  const targetEventStream = EventStream('target-event', {
     select: x => x,
     xf: x => x,
     write: x => x
   });
-  const store = Store({}, sourceHub);
+  const store = Store({}, sourceEventStream);
   const makeEffect = Effect(store);
 
-  makeEffect(sourceHub, targetHub, (_, patch) => patch);
+  makeEffect(sourceEventStream, targetEventStream, (_, patch) => patch);
 
-  store.dispatch(sourceHub, 42);
+  store.dispatch(sourceEventStream, 42);
 
-  targetHub.stream.subscribe(x => {
+  targetEventStream.stream.subscribe(x => {
     expect(x).toStrictEqual(42);
   });
 });

@@ -1,6 +1,6 @@
 import { skip } from 'rxjs/operators';
 import EventStream from '../lib/events';
-import Store, { withReason } from '../lib/store';
+import Store, { select, withReason } from '../lib/store';
 
 test('event messages are dispatched to stream', done => {
   const eventStream = EventStream('some-event');
@@ -15,14 +15,11 @@ test('event messages are dispatched to stream', done => {
 });
 
 test('effectful events result in state update', done => {
-  const eventStream = EventStream<{ prop: number }, number, number>(
-    'some-event',
-    {
-      select: state => state.prop,
-      write: (state, focus) => ({ ...state, prop: focus }),
-      xf: (focus, patch) => focus + patch
-    }
-  );
+  const eventStream = EventStream<{ prop: number }, number>('some-event', {
+    select: state => state.prop,
+    write: (state, focus) => ({ ...state, prop: focus }),
+    xf: (focus, patch) => focus + patch
+  });
   const store = Store({ prop: 0 }, eventStream);
 
   store.state.pipe(skip(1)).subscribe(state => {
@@ -46,14 +43,11 @@ test("all events are streamed through 'events' property", done => {
 });
 
 test('current state is accessible via valueOf()', () => {
-  const eventStream = EventStream<{ prop: number }, number, number>(
-    'some-event',
-    {
-      select: state => state.prop,
-      write: (slice, patch) => ({ ...slice, prop: patch }),
-      xf: (focus, patch) => focus + patch
-    }
-  );
+  const eventStream = EventStream<{ prop: number }, number>('some-event', {
+    select: state => state.prop,
+    write: (slice, patch) => ({ ...slice, prop: patch }),
+    xf: (focus, patch) => focus + patch
+  });
   const store = Store({ prop: 0 }, eventStream);
 
   store.dispatch(eventStream, 5);
@@ -62,9 +56,7 @@ test('current state is accessible via valueOf()', () => {
 });
 
 test('effectless events do not trigger store update', () => {
-  const eventStream = EventStream<{ prop: number }, number, number>(
-    'some-event'
-  );
+  const eventStream = EventStream<{ prop: number }, number>('some-event');
   const store = Store({ prop: 0 }, eventStream);
 
   store.dispatch(eventStream, 42);
@@ -73,16 +65,13 @@ test('effectless events do not trigger store update', () => {
 });
 
 test('failing dispatch calls trigger relevant failure events', done => {
-  const eventStream = EventStream<{ prop: number }, number, number>(
-    'some-event',
-    {
-      select: state => state.prop,
-      write: (state, patch) => ({ ...state, prop: patch }),
-      xf: (_, __) => {
-        throw Error('42');
-      }
+  const eventStream = EventStream<{ prop: number }, number>('some-event', {
+    select: state => state.prop,
+    write: (state, patch) => ({ ...state, prop: patch }),
+    xf: (_, __) => {
+      throw Error('42');
     }
-  );
+  });
   const store = Store({ prop: 0 }, eventStream);
 
   eventStream.stream.subscribe(({ status }) => {
@@ -93,15 +82,23 @@ test('failing dispatch calls trigger relevant failure events', done => {
   store.dispatch(eventStream, 0);
 });
 
+test('unknown events are ignored', () => {
+  const eventStream = EventStream<{ prop: number }, number>('some-event');
+  const store = Store({ prop: 0 });
+
+  const spy = jest.spyOn(eventStream.stream, 'next');
+
+  store.dispatch(eventStream, 42);
+
+  expect(spy).not.toHaveBeenCalled();
+});
+
 test('withReason emits current state with latest ok event available', done => {
-  const eventStream = EventStream<{ prop: number }, number, number>(
-    'some-event',
-    {
-      select: state => state.prop,
-      write: (state, patch) => ({ ...state, prop: patch }),
-      xf: (focus, patch) => focus + patch
-    }
-  );
+  const eventStream = EventStream<{ prop: number }, number>('some-event', {
+    select: state => state.prop,
+    write: (state, patch) => ({ ...state, prop: patch }),
+    xf: (focus, patch) => focus + patch
+  });
   const store = Store({ prop: 0 }, eventStream);
 
   withReason(store).subscribe(([state, reason]) => {
@@ -113,15 +110,46 @@ test('withReason emits current state with latest ok event available', done => {
   store.dispatch(eventStream, 42);
 });
 
-test('unknown events are ignored', () => {
-  const eventStream = EventStream<{ prop: number }, number, number>(
-    'some-event'
-  );
+test('select() memoizes structurally equal objects', () => {
+  const eventStream = EventStream<{ prop: number }>('some-event', {
+    select: state => state,
+    write: (_, patch) => ({ ...patch }),
+    xf: (_, patch) => patch
+  });
   const store = Store({ prop: 0 });
 
-  const spy = jest.spyOn(eventStream.stream, 'next');
+  store.state
+    .pipe(
+      select(x => x.prop),
+      skip(1)
+    )
+    .subscribe(x => {
+      expect(x).toStrictEqual({ prop: 9001 });
+    });
+
+  store.dispatch(eventStream, { prop: 42 });
+  store.dispatch(eventStream, { prop: 42 });
+  store.dispatch(eventStream, { prop: 9001 });
+});
+
+test('select() memoizes primitives', () => {
+  const eventStream = EventStream<{ prop: number }, number>('some-event', {
+    select: state => state.prop,
+    write: (state, patch) => ({ ...state, prop: patch }),
+    xf: (_, patch) => patch
+  });
+  const store = Store({ prop: 0 });
+
+  store.state
+    .pipe(
+      select(x => x.prop),
+      skip(1)
+    )
+    .subscribe(x => {
+      expect(x).toStrictEqual(9001);
+    });
 
   store.dispatch(eventStream, 42);
-
-  expect(spy).not.toHaveBeenCalled();
+  store.dispatch(eventStream, 42);
+  store.dispatch(eventStream, 9001);
 });
