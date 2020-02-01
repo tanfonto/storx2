@@ -1,5 +1,5 @@
 {
-  "name": "@recubed/storx2",
+  "name": "@tanfonto/storx2",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -12,9 +12,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/rethree/storx2",
+  "repository": "https://github.com/tanfonto/storx2",
   "scripts": {
-    "lint": "eslint --config .eslintrc.json lib/**/*.ts",
+    "lint": "eslint -c .eslintrc.js 'lib/**/*.ts'",
     "build": "tsc -p tsconfig.build.json",
     "test": "jest",
     "test:dev": "yarn test --no-cache",
@@ -24,7 +24,7 @@
     "@types/jest": "^24.0.18",
     "@types/node": "^13.5.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "coveralls": "^3.0.6",
     "eslint": "^6.0.1",
     "jest": "^25.1.0",

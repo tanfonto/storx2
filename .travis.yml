@@ -1,4 +1,5 @@
 language: node_js
+version: 1.0
 node_js:
 - node
 install:
@@ -20,7 +21,8 @@ jobs:
       email: tanfonto@pm.me
       tag: latest
       skip_cleanup: true
+      edge: true
       on:
         tags: true
       api_key:
-        secure: GZX4PGAiwWT6P0LUNaQDxrnAwUVsUY8B3Mb6BFkf5J9OnF2IMD55RqO2pZ42p7h/oO+oi11kC/jLyeAdUg+3fTsVQscGr6F7POi9/J1PA0kAKExzyzRgh1Lt5Ip7PSa0PiKD20opUvxppnHrmZ/DrIgnaMNpzij5sDIVW4BMqJLcwK6MfzcPggBBHKjJEZIv+UNJk9BuQCPih+9gqtOaU+WoIlhHjN5pvzv3p6Dvh2L8QLWoLqb2r5UxpopgfVGmEDCkBRWF/+FYbialWHcMWjMikPeVgQVYZCBgOsLwHMz+099iKiFY4SbTVx5njrCfRvRuWysCWQI6u0o6XtdRP0kEEpuDirSXz16EwF7tk5BTvFhXQqwwxVvyt7bg4KTex8eYUo0h9JCuvJ/GmvNIOCsUBzigt+L4iwEEjCKyrmdlzuFbiI0Zu0CaVuc4NB3QVJfZjHICDyIb1q9Jbs1Gq9z7b3srMwdlwz7br9kNcP9BlUSxya/BjTTp8bJm0Txj2xMF4kxNJSS0EieVDRcjiqmZU9gkvvU5AznxHjU48AO+hRVhXO0txToZK2FH/yTsTAddTiq7M/gKPaCPowXXvDPCe8eQVm5zCWYkZKw75GeYFUgXjwWX0Wjr2s120lFTCYC6mfSAwI+qFGMOCPqZ3EWDUVtk8tXZlhnBdI5Dvxs=
+        secure: fdg/pZhdoRR6ALpakVg/NDDJnocsloCePlTged4dBpc0BVvuHqUPdEKCz5AcrK0Az5xmoHRu1wNWxU3gtgLDukBkCzGAI/4U1OfKyHSAEeTZ+A720hbZQLcS9xdktcM9j9WPqUU0yy+WkPFzn6SbSGnjKhmdW56vuBnQkMcjsKwG6AMWYo2Qq/BAM+uTl0PHEiAoF3QnFb5XssxM2VfQOXcqbETry63jSXoSG1kmfG5/VhkxytrupEQ94gNZwcrn73fAqxF8KI+UB3pML5bFS6au+4eDZOOajZFX1zZxs61CDPj5POFfjDFr2OcQ4+LqxuqC2kD9B8m9Oyy3aq5+aTcEQ7hwd+P45mO2QtYuGEP3z1njBaB8hSabjIdmz82ohjgpt0804HuSW3bc0V8c8oDtqG42I+xCM3RyvQs/zpiEqOb15NzKfJAkVKoC9TbdZwm5djWL+PdqcoxXmpk6mRUIPlyh6BKkzx9j/9emsJm/QRZHnrAEZDHdIihw4GH90oa45CxBm5DaiD5h1uBz1Fxqj0rx1fHAdcb4UajeyVyyY3n++Lt6TSOr5olRTR4AcpeM+LfI5Xk/PidvPtwP8G2Z22oBj3PuOTRVT2ut3GarGSJ1xgvncHYqUM5kKrOwfzH4cbjVHjpMW515Bp/POjewOH+NcOWjzUsJKtUjZaA=
