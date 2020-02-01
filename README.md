@@ -142,6 +142,11 @@ store.dispatch(eventStream, 42);
 store.dispatch(eventStream, 42);
 ```
 
+### Examples
+
+- Using with `Angular`
+
+See this [stackblitz](https://stackblitz.com/edit/angular-gh6ps3) 
 
 ### License
 
