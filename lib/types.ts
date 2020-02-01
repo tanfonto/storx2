@@ -9,7 +9,7 @@ export type Event<S, P> = {
 
 export type EventStream<S, P> = {
   kind: string;
-  stream: Subject<Event<S, P | undefined>>;
+  stream: Subject<Event<S, P>>;
   xf?: (state: S, patch: P) => S;
 };
 
