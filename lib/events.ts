@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { EventStream, Event } from './types';
 
-export default <S, P, F>(
+export default <S, P = S, F = P>(
   kind: string,
   effectful?: {
     select: (state: S) => F;

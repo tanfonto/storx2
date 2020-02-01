@@ -18,20 +18,22 @@ This is a revamped version of [Storx](https://github.com/tanfonto/storx). Differ
 
 - `Store (known events[])` - an object that relies on variable-size set of events (provided via constructor function) that it then triggers when `dispatch` is called. Stores the state object and - depending on an event type definition (effectful or effectless) - may also perform updates.
 
-- `Events (effectful | effectless)` - tuples of `Subject` and nullable transform function, discriminated with `kind` property. Created via 2-ary constructor function that allows strict, granular control over the transformation function definition.
+- `Events (effectful | effectless)` - tuples of `Subject` and nullable transformation function, discriminated with `kind` property. Created via 2-ary constructor function that allows strict, granular control over the transformation function definition.
 
-- `Effects` - given `Store` and `Event`(s) references an `Effect` will listen on event emissions and trigger side effects. If a tuple of event and transformation function is provided as a 2-nd argument effect will also run the transformation on source event payload and dispatch the result to the target event stream.
+- `Effects` - given `Store` and `Event`(s) references `Effect` will listen on event emissions and trigger side effects. If a tuple of event and transformation function is provided as a 2-nd argument effect will also run the transformation on source event payload and dispatch the result to the target event stream (second element of the aforementioned tuple).
+
+- `Selectors` - Store projections created with simple RxJS `select` operator. Selectors are memoized, objects are compared using [deep-is](https://www.npmjs.com/package/deep-is) algorithm. 
 
 ### Installation
 
 ```
-npm i @tanfonto/storx
+npm i @tanfonto/storx2
 ```
 
 or
 
 ```
-yarn add @tanfonto/storx
+yarn add @tanfonto/storx2
 ```
 
 ### API
@@ -109,13 +111,13 @@ makeEffect(eventStream, (state, patch) => {
 store.dispatch(eventStream, 42);
 ```
 
-- Dependent `Effects` creation
+- Chained `Effects` creation
 
 ```typescript
 const makeEffect = Effect(store);
 makeEffect(eventStream, [otherEventStream, (_state, patch) => patch]);
 
-store.allEvents.subscribe(ev => {
+store.allEvents.pipe(skip(1)).subscribe(ev => {
   console.log(ev);
   // { kind: 'other-event', status: 'successful', patch: 42 }
 });
@@ -123,6 +125,25 @@ store.allEvents.subscribe(ev => {
 store.dispatch(eventStream, 42);
 ```
 
+- Selectors (`select` operator)
+
+```typescript
+  store.state.pipe(select(x => x.prop))
+    .subscribe(x => {
+      console.log(x)
+      //42, 9001 [selectors are memoized therefore second dispatch will not emit] 
+    });
+
+  store.dispatch(eventStream, 42);
+  store.dispatch(eventStream, 42);
+  store.dispatch(eventStream, 9001);
+});
+
+store.dispatch(eventStream, 42);
+```
+
+
 ### License
 
 MIT
+    
