@@ -22,7 +22,7 @@ This is a revamped version of [Storx](https://github.com/tanfonto/storx). Differ
 
 - `Effects` - given `Store` and `Event`(s) references `Effect` will listen on event emissions and trigger side effects. If a tuple of event and transformation function is provided as a 2-nd argument effect will also run the transformation on source event payload and dispatch the result to the target event stream (second element of the aforementioned tuple).
 
-- `Selectors` - Store projections created with simple RxJS `select` operator. Selectors are memoized, objects are compared using [deep-is](https://www.npmjs.com/package/deep-is) algorithm. 
+- `Selectors` - Store projections created with custom RxJS `select` operator. Selectors are memoized, values are compared using [deep-is](https://www.npmjs.com/package/deep-is) algorithm. 
 
 ### Installation
 
@@ -41,7 +41,7 @@ yarn add @tanfonto/storx2
 - `Store` creation
 
 ```typescript
-import { Store, EventStream, Effect } from '@tanfonto/storx';
+import { Store, EventStream, Effect } from '@tanfonto/storx2';
 
 const eventStream = EventStream('some-event');
 const otherEventStream = EventStream('other-event');
