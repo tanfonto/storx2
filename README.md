@@ -41,7 +41,8 @@ yarn add @tanfonto/storx2
 - `Store` creation
 
 ```typescript
-import { Store, EventStream, Effect } from '@tanfonto/storx2';
+import { Store, EventStream, Effect, select } from '@tanfonto/storx2';
+import { skip } from 'rxjs/operators';
 
 const eventStream = EventStream('some-event');
 const otherEventStream = EventStream('other-event');
@@ -144,7 +145,7 @@ store.dispatch(eventStream, 42);
 
 ### Examples
 
-- Using with `Angular`: see this [stackblitz](https://stackblitz.com/edit/angular-gh6ps3) 
+- Using with `Angular`: check [this stackblitz](https://stackblitz.com/edit/angular-gh6ps3) 
 
 ### License
 
