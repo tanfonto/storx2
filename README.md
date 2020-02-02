@@ -9,7 +9,7 @@ Status](https://david-dm.org/tanfonto/storx2/status.svg)](https://david-dm.org/t
 
 # Storx(2)
 
-[Rxjs](https://github.com/ReactiveX/RxJS)-based state management. Borrows concepts from [Redux](https://github.com/reduxjs/redux), [Effector](https://github.com/zerobias/effector) and few others
+[RxJS](https://github.com/ReactiveX/RxJS)-based state management. Borrows concepts from [Redux](https://github.com/reduxjs/redux), [Effector](https://github.com/zerobias/effector) and few others
 but targets minimalism and strong RxJS reliance rather than custom internals.
 
 This is a revamped version of [Storx](https://github.com/tanfonto/storx). Differs from its predecessor in both implementation and dsl but persists the core ideas of simplicity and RxJS dependency.
@@ -146,6 +146,7 @@ store.dispatch(eventStream, 42);
 ### Examples
 
 - Using with `Angular`: check [this stackblitz](https://stackblitz.com/edit/angular-gh6ps3) 
+- Using with `React`: check [this codesandbox](https://codesandbox.io/s/little-sun-tj000)
 
 ### License
 
