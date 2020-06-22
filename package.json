@@ -1,6 +1,6 @@
 {
-  "name": "@tanfonto/storx2",
-  "version": "0.1.0",
+  "name": "@recubed/storx",
+  "version": "0.9.9",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/tanfonto/storx2",
+  "repository": "https://github.com/rethree/storx",
   "scripts": {
     "lint": "eslint -c .eslintrc.js 'lib/**/*.ts'",
     "build": "tsc -p tsconfig.build.json",
